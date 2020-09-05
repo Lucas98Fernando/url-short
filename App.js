@@ -81,7 +81,7 @@ export default function App() {
 
         <Text style={styles.footer}>
           Desenvolvido por:
-          <Text style={{color: '#f10'}}> Lucas Fernando</Text>
+          <Text style={{color: '#f10'}}> Lucas Fernando</Text>.
         </Text>
       </View>
     </TouchableWithoutFeedback>
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 35,
     fontWeight: 'bold',
-    marginBottom: 30,
+    marginBottom: 50,
   },
   urlInput: {
     height: 50,
