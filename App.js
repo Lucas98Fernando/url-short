@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Keyboard,
   TouchableWithoutFeedback,
+  ImageBackground,
 } from 'react-native';
 import Clipboard from '@react-native-community/clipboard';
 
@@ -49,40 +50,44 @@ export default function App() {
     // Serves to allow the user to click outside the input and close the keyboard
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
-        {/* App title starts here*/}
-        <Text style={styles.title}>
-          URL
-          <Text style={{color: '#f10'}}>Short</Text>
-        </Text>
-        {/** App title ends here */}
-        {/** Input box starts here*/}
-        <TextInput
-          style={styles.urlInput}
-          onChangeText={(textInput) => setUrl(textInput)}
-          value={url}
-          placeholder="Informe a URL"
-        />
+        <ImageBackground
+          source={require('./src/assets/bg_paper1.jpg')}
+          style={styles.bgImage}>
+          {/* App title starts here*/}
+          <Text style={styles.title}>
+            URL
+            <Text style={{color: '#f10'}}>Short</Text>
+          </Text>
+          {/** App title ends here */}
+          {/** Input box starts here*/}
+          <TextInput
+            style={styles.urlInput}
+            onChangeText={(textInput) => setUrl(textInput)}
+            value={url}
+            placeholder="Informe a URL"
+          />
 
-        <TextInput
-          style={styles.urlInput}
-          onChangeText={(textInput) => setName(textInput)}
-          value={name}
-          placeholder="Informe o nome personalizado"
-        />
-        {/** Input box ends here */}
-        {/** Button to shorten the url */}
-        <TouchableOpacity onPress={() => short()} style={styles.shortBtn}>
-          <Text style={styles.textBtn}>Encurtar</Text>
-        </TouchableOpacity>
+          <TextInput
+            style={styles.urlInput}
+            onChangeText={(textInput) => setName(textInput)}
+            value={name}
+            placeholder="Informe o nome personalizado"
+          />
+          {/** Input box ends here */}
+          {/** Button to shorten the url */}
+          <TouchableOpacity onPress={() => short()} style={styles.shortBtn}>
+            <Text style={styles.textBtn}>Encurtar</Text>
+          </TouchableOpacity>
 
-        <TouchableWithoutFeedback onPress={urlFinal ? copyUrl : () => {}}>
-          <Text style={styles.finalUrl}>{urlFinal}</Text>
-        </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={urlFinal ? copyUrl : () => {}}>
+            <Text style={styles.finalUrl}>{urlFinal}</Text>
+          </TouchableWithoutFeedback>
 
-        <Text style={styles.footer}>
-          Desenvolvido por:
-          <Text style={{color: '#f10'}}> Lucas Fernando</Text>.
-        </Text>
+          <Text style={styles.textFooter}>
+            Desenvolvido por:
+            <Text style={styles.secondTextFooter}> Lucas Fernando</Text>.
+          </Text>
+        </ImageBackground>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -97,14 +102,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   title: {
-    fontSize: 35,
+    fontSize: 40,
     fontWeight: 'bold',
     marginBottom: 50,
   },
   urlInput: {
     height: 50,
     borderRadius: 15,
-    borderWidth: 1,
+    borderWidth: 2,
     marginBottom: 15,
     borderColor: '#f10',
     color: '#000',
@@ -118,25 +123,39 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 30,
+    height: 50,
     borderRadius: 15,
     padding: 20,
     backgroundColor: '#f10',
   },
   textBtn: {
-    fontWeight: '600',
+    fontWeight: '700',
     fontSize: 18,
     color: '#fff',
   },
   finalUrl: {
     width: '85%',
     height: 30,
+    fontWeight: 'bold',
     fontSize: 18,
     textAlign: 'center',
     marginTop: 15,
   },
-  footer: {
+  textFooter: {
     position: 'absolute',
+    fontWeight: '500',
     bottom: 20,
+  },
+  bgImage: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    opacity: 0.9,
+  },
+  secondTextFooter: {
+    color: '#f10',
+    fontWeight: '600',
   },
 });
