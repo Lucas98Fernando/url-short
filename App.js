@@ -51,7 +51,7 @@ export default function App() {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <ImageBackground
-          source={require('./src/assets/bg_paper1.jpg')}
+          source={require('./src/assets/bg_white.jpg')}
           style={styles.bgImage}>
           {/* App title starts here*/}
           <Text style={styles.title}>
