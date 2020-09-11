@@ -8,6 +8,7 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   ImageBackground,
+  Alert,
 } from 'react-native';
 import Clipboard from '@react-native-community/clipboard';
 
@@ -41,10 +42,29 @@ export default function App() {
     }
   };
 
+  /*
   function copyUrl() {
     Clipboard.setString(urlFinal);
     alert('URL copiada com sucesso!');
   }
+  */
+
+  /* Function to copy the shortened URL */
+    function copyUrl() {
+      Clipboard.setString(urlFinal);
+        Alert.alert(
+          "Atenção !",
+          "URL copiada com sucesso.",
+          [
+            {
+              text: "Voltar",
+              onPress: () => console.log("Cancel Pressed"),
+              style: "cancel"
+            },
+          ],
+          { cancelable: false }
+        );
+    }
 
   return (
     // Serves to allow the user to click outside the input and close the keyboard
