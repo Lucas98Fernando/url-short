@@ -1,5 +1,5 @@
 <h1 align="center">URLShort</h1>
-<p>The URLshort is an React-Native app, whose function is to shorten url's, using custom names. The API used for this was the Cuttly.</p>
+<p align="center">The URLshort is an React-Native app, whose function is to shorten url's, using custom names. The API used for this was the Cuttly.</p>
 
 <p align="center"><img src="src/assets/urlshort-index.png"></p>
 
