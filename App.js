@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {
+  ActivityIndicator,
   StyleSheet,
   View,
   Text,
@@ -18,53 +19,53 @@ import Clipboard from '@react-native-community/clipboard';
 export default function App() {
   // Store data from input
   const [url, setUrl] = useState('');
+  const [loading, setLoading] = useState(false);
   const [name, setName] = useState('');
   const [urlFinal, setUrlFinal] = useState('');
 
   // Function to validade url's
   const short = async () => {
     if (url.includes('https://') || url.includes('http://')) {
+      setLoading(true);
       await fetch(
         `https://cutt.ly/api/api.php?key=0c55fa2799c86078ae43de35bbe90c1adbca3&short=${url}&name=${name}`,
-      ).then(async (response) => {
-        const data = await response.json();
-        if (data.url.status === 3) {
-          alert('Esse nome já está sendo utilizado');
-          return;
-        }
-        if (data.url.status === 2) {
-          alert('A URL informada é inválida');
-          return;
-        }
-        setUrlFinal(data.url.shortLink);
-        Keyboard.dismiss;
-      });
+      )
+        .then(async (response) => {
+          const data = await response.json();
+          if (data.url.status === 3) {
+            Alert.alert(
+              'Atenção',
+              'Esse nome personalizado já está sendo utilizado!',
+            );
+            return;
+          }
+          if (data.url.status === 2) {
+            Alert.alert('Atenção', 'A URL informada é inválida');
+            return;
+          }
+          setUrlFinal(data.url.shortLink);
+          Keyboard.dismiss;
+        })
+        .finally(() => setLoading(false));
     }
   };
 
-  /*
+  /* Function to copy the shortened URL */
   function copyUrl() {
     Clipboard.setString(urlFinal);
-    alert('URL copiada com sucesso!');
+    Alert.alert(
+      'Atenção !',
+      'URL copiada para a área de transferência.',
+      [
+        {
+          text: 'Fechar',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+      ],
+      {cancelable: false},
+    );
   }
-  */
-
-  /* Function to copy the shortened URL */
-    function copyUrl() {
-      Clipboard.setString(urlFinal);
-        Alert.alert(
-          "Atenção !",
-          "URL copiada com sucesso.",
-          [
-            {
-              text: "Voltar",
-              onPress: () => console.log("Cancel Pressed"),
-              style: "cancel"
-            },
-          ],
-          { cancelable: false }
-        );
-    }
 
   return (
     // Serves to allow the user to click outside the input and close the keyboard
@@ -73,13 +74,11 @@ export default function App() {
         <ImageBackground
           source={require('./src/assets/bg_white.jpg')}
           style={styles.bgImage}>
-          {/* App title starts here*/}
           <Text style={styles.title}>
             URL
-            <Text style={{color: '#f10'}}>Short</Text>
+            <Text style={styles.textRed}>Short</Text>
           </Text>
-          {/** App title ends here */}
-          {/** Input box starts here*/}
+
           <TextInput
             style={styles.urlInput}
             onChangeText={(textInput) => setUrl(textInput)}
@@ -93,10 +92,18 @@ export default function App() {
             value={name}
             placeholder="Informe o nome personalizado"
           />
-          {/** Input box ends here */}
-          {/** Button to shorten the url */}
+
           <TouchableOpacity onPress={() => short()} style={styles.shortBtn}>
-            <Text style={styles.textBtn}>Encurtar</Text>
+            {loading && (
+              <ActivityIndicator
+                style={styles.loading}
+                color="#fff"
+                size="small"
+              />
+            )}
+            <Text style={styles.textBtn}>
+              {loading ? 'Gerando URL' : 'Encurtar'}
+            </Text>
           </TouchableOpacity>
 
           <TouchableWithoutFeedback onPress={urlFinal ? copyUrl : () => {}}>
@@ -142,6 +149,7 @@ const styles = StyleSheet.create({
     width: '85%',
     textAlign: 'center',
     justifyContent: 'center',
+    flexDirection: 'row',
     alignItems: 'center',
     height: 50,
     borderRadius: 15,
@@ -152,6 +160,10 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 18,
     color: '#fff',
+    marginLeft: 10,
+  },
+  textRed: {
+    color: '#f10',
   },
   finalUrl: {
     width: '85%',
@@ -159,7 +171,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 18,
     textAlign: 'center',
-    marginTop: 15,
+    marginTop: 20,
     marginBottom: 15,
   },
   textFooter: {
@@ -178,5 +190,8 @@ const styles = StyleSheet.create({
   secondTextFooter: {
     color: '#f10',
     fontWeight: '600',
+  },
+  loading: {
+    marginTop: 12,
   },
 });
